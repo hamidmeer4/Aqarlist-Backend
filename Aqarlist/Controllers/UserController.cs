@@ -11,7 +11,7 @@ namespace Aqarlist.Controllers
     {
         private readonly IUserService _userService;
         private readonly ApiDbContext _db;
-        public UserController(IUserService userService, ApiDbContext     db) 
+        public UserController(IUserService userService, ApiDbContext db) 
         {
             _userService = userService;
             _db = db;
