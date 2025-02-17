@@ -1,4 +1,6 @@
-﻿using Aqarlist.Core.Services.Service_Interface;
+﻿using Aqarlist.Core.Models.Database;
+using Aqarlist.Core.Models.Dto;
+using Aqarlist.Core.Services.Service_Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +32,13 @@ namespace Aqarlist.Controllers
         {
             var result = _propertyService.GetPropertyCountByCity();
             return Ok(result);
+        }
+
+        [HttpPost("")]
+        public ActionResult AddNewProperty(PropertyDto model) 
+        {
+            _propertyService.AddNewProperty(model);
+            return Ok(true);
         }
     }
 }

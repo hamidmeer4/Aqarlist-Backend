@@ -7,5 +7,6 @@ namespace Aqarlist.Core.Services.Service_Interface
         PropertyTypeDto[] GetAllPropertyTypes();
         PropertyDto[] GetAllPropertiesByType(int TypeId);
         PropertyByCityDto[] GetPropertyCountByCity();
+        bool AddNewProperty(PropertyDto model);
     }
 }

@@ -17,6 +17,10 @@ namespace Aqarlist.Core.Services.Service_Implemetation
         public PropertyDto[] GetAllPropertiesByType(int TypeId)
         {
             var properties = _db.Property.Where(x => x.PropertyTypeId == TypeId);
+            foreach (var item in properties)
+            {
+                item.OwnerOrAgentNotes = string.Empty;
+            }
             return _mapper.Map<PropertyDto[]>(properties);
         }
 
@@ -35,6 +39,13 @@ namespace Aqarlist.Core.Services.Service_Implemetation
                                                 NumOfProperties = x.Count()
                                             });
             return query.ToArray();
+        }
+        public bool AddNewProperty(PropertyDto model)
+        {
+            var data = _mapper.Map<Property>(model);
+            _db.Property.Add(data);
+            _db.SaveChanges();
+            return true;
         }
     }
 }
