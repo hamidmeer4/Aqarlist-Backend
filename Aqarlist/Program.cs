@@ -8,6 +8,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Scrutor;
 using System.Reflection;
+using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
+using Amazon.S3;
+using Amazon;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,11 +28,23 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddMvcCore();
 var jwtSettings = configuration.GetSection("Jwt");
+var googleSignIn = configuration.GetSection("GoogleSignIn");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+//builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddDefaultAWSOptions(new AWSOptions
+{
+    Region = RegionEndpoint.USEast1, // Updated to us-east-1
+    Credentials = new BasicAWSCredentials(
+        configuration["AWS:AccessKey"], // Ensure these keys are securely managed
+        configuration["AWS:SecretKey"]
+    )
+});
+builder.Services.AddAWSService<IAmazonS3>();
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
- })
+})
     .AddJwtBearer(options =>
     {
         options.RequireHttpsMetadata = false;
@@ -43,7 +59,13 @@ builder.Services.AddAuthentication(x =>
             ValidAudience = jwtSettings["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
-    });
+    })
+     .AddGoogle(options =>
+     {
+         options.ClientId = googleSignIn["ClientId"];
+         options.ClientSecret = googleSignIn["ClientSecret"];
+     });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

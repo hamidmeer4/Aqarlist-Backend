@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Aqarlist.Core.Models.Database
 {
@@ -53,6 +54,10 @@ namespace Aqarlist.Core.Models.Database
         public int? FloorNumber { get; set; }
         public string? OwnerOrAgentNotes { get; set; }
         public string Amenities { get; set; } = string.Empty;
+        public int? MainAttachmentId { get; set; }
+
+        [ForeignKey("MainAttachmentId")]
+        public virtual Attachment? MainAttachment { get; set; }
 
 
 

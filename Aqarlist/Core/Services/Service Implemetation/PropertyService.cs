@@ -9,10 +9,12 @@ namespace Aqarlist.Core.Services.Service_Implemetation
     {
         private readonly ApiDbContext _db;
         private readonly IMapper _mapper;
-        public PropertyService(ApiDbContext db, IMapper mapper)
+        private readonly IFileService _fileService;
+        public PropertyService(ApiDbContext db, IMapper mapper, IFileService fileService)
         {
             _db = db;
             _mapper = mapper;
+            _fileService = fileService;
         }
         public PropertyDto[] GetAllPropertiesByType(int TypeId)
         {
@@ -42,6 +44,16 @@ namespace Aqarlist.Core.Services.Service_Implemetation
         }
         public bool AddNewProperty(PropertyDto model)
         {
+            List<int> attachmentIds = new List<int>();
+            if (model.Attachments != null && model.Attachments.Length != 0)
+            {
+                foreach (var item in model.Attachments)
+                {
+                    var attachment = _fileService.UploadFileAsync(item, model.Id);
+                    attachmentIds.Add(attachment.Id);
+                }
+            }
+            model.MainAttachmentId = attachmentIds[0];
             var data = _mapper.Map<Property>(model);
             _db.Property.Add(data);
             _db.SaveChanges();

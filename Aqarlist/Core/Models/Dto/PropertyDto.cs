@@ -49,5 +49,7 @@ namespace Aqarlist.Core.Models.Dto
         public int? FloorNumber { get; set; }
         public string? OwnerOrAgentNotes { get; set; }
         public string Amenities { get; set; } = string.Empty;
+        public IFormFile[]? Attachments { get; set; }
+        public int? MainAttachmentId { get; set; }
     }
 }
