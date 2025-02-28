@@ -12,6 +12,7 @@ using Amazon.Extensions.NETCore.Setup;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon;
+using System.Diagnostics;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,10 @@ builder.Services.AddMvcCore();
 var jwtSettings = configuration.GetSection("Jwt");
 var googleSignIn = configuration.GetSection("GoogleSignIn");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+//builder.Configuration
+//    .SetBasePath(Directory.GetCurrentDirectory())
+//    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+//    .AddEnvironmentVariables();
 builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 //builder.Services.AddAWSService<IAmazonS3>();
 builder.Services.AddDefaultAWSOptions(new AWSOptions
