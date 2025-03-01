@@ -25,4 +25,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include=".ebextensions\app.config" />
+  </ItemGroup>
+
 </Project>
