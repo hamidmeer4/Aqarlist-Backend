@@ -1,1 +1,1 @@
-web: dotnet ./app/Aqarlist.dll 
+web: dotnet Aqarlist.dll
