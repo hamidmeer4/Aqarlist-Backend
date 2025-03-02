@@ -16,6 +16,7 @@ namespace Aqarlist.Core.Services.Service_Implemetation
         private readonly ApiDbContext _db;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+
         public UserService( ApiDbContext db, IMapper mapper, IConfiguration configuration)
         {
             _db = db;
@@ -92,6 +93,11 @@ namespace Aqarlist.Core.Services.Service_Implemetation
                 Expiry = tokenDescriptor.Expires,
                 RefreshToken = refreshToken
             };
+        }
+
+        public Roles[] GetAllRoles()
+        {
+            return _db.Roles.ToArray();
         }
     }
 }

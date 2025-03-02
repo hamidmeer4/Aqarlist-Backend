@@ -4,9 +4,9 @@ namespace Aqarlist.Core.Services.Service_Interface
 {
     public interface IPropertyService 
     {
-        PropertyTypeDto[] GetAllPropertyTypes();
-        PropertyDto[] GetAllPropertiesByType(int TypeId);
-        PropertyByCityDto[] GetPropertyCountByCity();
+        PropertyTypeDto[] GetAllCategoryTypes();
+        PropertyDto[] GetAllPropertiesByType(int TypeId, PropertySearchFilter searchFilter);
+        PropertyByCityDto[] GetPropertyCountByCity(PropertySearchFilter searchFilter);
         bool AddNewProperty(PropertyDto model);
     }
 }

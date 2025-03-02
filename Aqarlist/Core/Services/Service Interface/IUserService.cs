@@ -8,5 +8,6 @@ namespace Aqarlist.Core.Services.Service_Interface
         public Users[] GetAll();
         public Guid Create(UserDto model);
         public LoginRepsonse Login(string emailAddress , string password);
+        public Roles[] GetAllRoles();
     }
 }

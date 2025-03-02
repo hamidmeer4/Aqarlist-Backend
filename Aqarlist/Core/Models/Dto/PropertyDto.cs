@@ -24,7 +24,6 @@ namespace Aqarlist.Core.Models.Dto
         public double Size { get; set; }  // Float in SQL corresponds to double in C#
 
         public string? Description { get; set; }  // Nullable Description
-        public string? Category { get; set; }
         public string? ListedIn { get; set; }
         public string? Status { get; set; }
         public double? YearlyTaxRate { get; set; }

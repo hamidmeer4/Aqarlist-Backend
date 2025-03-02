@@ -20,6 +20,13 @@ namespace Aqarlist.Controllers
             _db = db;
             _httpClientFactory = httpClientFactory;
         }
+
+        [HttpGet("roles/all")]
+        public IActionResult GetAllRoles()
+        {
+            return Ok(_userService.GetAllRoles());
+        }
+
         [HttpGet("all")]
         public IActionResult GetAll()
         {

@@ -28,7 +28,8 @@ builder.Services.Scan(scan => scan
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
-builder.Services.AddMvcCore();
+builder.Services.AddHttpClient();
+//builder.Services.AddMvcCore();
 
 var jwtSettings = configuration.GetSection("Jwt");
 var googleSignIn = configuration.GetSection("GoogleSignIn");
@@ -90,7 +91,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseAuthorization();
 
 app.MapControllers();

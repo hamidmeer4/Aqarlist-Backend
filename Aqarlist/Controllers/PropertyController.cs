@@ -15,22 +15,22 @@ namespace Aqarlist.Controllers
         {
             _propertyService = propertyService;
         }
-        [HttpGet("by/type/{propertyTypeId:int}")]
-        public ActionResult GetAllPropertiesByType(int propertyTypeId)
+        [HttpGet("by/category/{propertyTypeId:int}")]
+        public ActionResult GetAllPropertiesByType(int propertyTypeId,PropertySearchFilter searchFilter)
         {
-            var result = _propertyService.GetAllPropertiesByType(propertyTypeId);
+            var result = _propertyService.GetAllPropertiesByType(propertyTypeId, searchFilter);
             return Ok(result);
         }
-        [HttpGet("types/all")]
-        public ActionResult GetAllPropertyTpes()
+        [HttpGet("category/all")]
+        public ActionResult GetAllCategoryTpes()
         {
-            var result = _propertyService.GetAllPropertyTypes();
+            var result = _propertyService.GetAllCategoryTypes();
             return Ok(result);
         }
         [HttpGet("numberByCity")]
-        public ActionResult GetPropertyCountByCity()
+        public ActionResult GetPropertyCountByCity(PropertySearchFilter searchFilter)
         {
-            var result = _propertyService.GetPropertyCountByCity();
+            var result = _propertyService.GetPropertyCountByCity(searchFilter);
             return Ok(result);
         }
 
