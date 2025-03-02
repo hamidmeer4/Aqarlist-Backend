@@ -44,7 +44,6 @@ namespace Aqarlist.Core.Models.Dto
         public int? NumOfFloors { get; set; }
         public string? Roofing { get; set; }
         public string? ExteriorMaterial { get; set; }
-        public string? StructureType { get; set; }
         public int? FloorNumber { get; set; }
         public string? OwnerOrAgentNotes { get; set; }
         public string Amenities { get; set; } = string.Empty;

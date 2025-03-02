@@ -16,7 +16,7 @@ namespace Aqarlist.Controllers
             _propertyService = propertyService;
         }
         [HttpGet("by/category/{propertyTypeId:int}")]
-        public ActionResult GetAllPropertiesByType(int propertyTypeId,PropertySearchFilter searchFilter)
+        public ActionResult GetAllPropertiesByType(int propertyTypeId,[FromQuery]PropertySearchFilter searchFilter)
         {
             var result = _propertyService.GetAllPropertiesByType(propertyTypeId, searchFilter);
             return Ok(result);
@@ -35,10 +35,17 @@ namespace Aqarlist.Controllers
         }
 
         [HttpPost("")]
-        public ActionResult AddNewProperty(PropertyDto model) 
+        public async Task<ActionResult> AddNewProperty(PropertyDto model) 
         {
-            _propertyService.AddNewProperty(model);
+            await _propertyService.AddNewProperty(model);
             return Ok(true);
+        }
+        [EndpointDescription("This endpoint is for property compare")]
+        [HttpGet("{id}:int")]
+        public ActionResult GetPropertyById(int id)
+        {
+            var result = _propertyService.GetPropertyById(id);
+            return Ok(result);
         }
     }
 }

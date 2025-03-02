@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Aqarlist.Core.Models.Database
 {
+    [Table("Attachment")]
     public class Attachment
     {
         [Key]

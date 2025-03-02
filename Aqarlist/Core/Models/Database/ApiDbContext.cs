@@ -23,6 +23,6 @@ namespace Aqarlist.Core.Models.Database
         public DbSet<Roles> Roles { get; set; } = null!;
         public DbSet<Property> Property { get; set; } = null!;
         public DbSet<PropertyType> PropertyType { get; set; } = null!;
-        public DbSet<Attachment> Attachments{ get; set; } = null!;
+        public DbSet<Attachment> Attachment{ get; set; } = null!;
     }
 }

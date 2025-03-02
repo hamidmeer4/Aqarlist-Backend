@@ -72,22 +72,31 @@ namespace Aqarlist.Core.Services.Service_Implemetation
                   });
             return toReturn.ToArray();
         }
-        public bool AddNewProperty(PropertyDto model)
+        public async Task<bool> AddNewProperty(PropertyDto model)
         {
             List<int> attachmentIds = new List<int>();
+            var data = _mapper.Map<Property>(model);
+            _db.Property.Add(data);
+            _db.SaveChanges();
             if (model.Attachments != null && model.Attachments.Length != 0)
             {
                 foreach (var item in model.Attachments)
                 {
-                    var attachment = _fileService.UploadFileAsync(item, model.Id);
-                    attachmentIds.Add(attachment.Id);
+                    var attachment = await _fileService.UploadFileAsync(item, data.Id);
+                    attachmentIds.Add(attachment);
                 }
             }
-            model.MainAttachmentId = attachmentIds[0];
-            var data = _mapper.Map<Property>(model);
-            _db.Property.Add(data);
+            data.MainAttachmentId = attachmentIds[0];
+            _db.Property.Update(data);
             _db.SaveChanges();
             return true;
+        }
+
+        public PropertyDto GetPropertyById(int id)
+        {
+            var property = _db.Property.FirstOrDefault(x => x.Id == id);
+            if (property is null) throw new Exception("Invalid Property");
+            return _mapper.Map<PropertyDto>(property);
         }
     }
 }
