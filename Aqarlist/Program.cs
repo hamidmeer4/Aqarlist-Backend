@@ -14,9 +14,9 @@ using Amazon.S3;
 using Amazon;
 using System.Diagnostics;
 
-
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+
 // Add services to the container.
 builder.Services.Scan(scan => scan
     .FromAssemblies(Assembly.GetExecutingAssembly()) // Scan the current assembly
@@ -24,19 +24,16 @@ builder.Services.Scan(scan => scan
     .AsImplementedInterfaces() // Register them as their interfaces
     .WithScopedLifetime() // Use Scoped lifetime (change as needed)
 );
+
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 builder.Services.AddMvcCore();
+
 var jwtSettings = configuration.GetSection("Jwt");
 var googleSignIn = configuration.GetSection("GoogleSignIn");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
-//builder.Configuration
-//    .SetBasePath(Directory.GetCurrentDirectory())
-//    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-//    .AddEnvironmentVariables();
-builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
-//builder.Services.AddAWSService<IAmazonS3>();
+
 builder.Services.AddDefaultAWSOptions(new AWSOptions
 {
     Region = RegionEndpoint.USEast1, // Updated to us-east-1
@@ -46,6 +43,7 @@ builder.Services.AddDefaultAWSOptions(new AWSOptions
     )
 });
 builder.Services.AddAWSService<IAmazonS3>();
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -65,11 +63,11 @@ builder.Services.AddAuthentication(x =>
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     })
-     .AddGoogle(options =>
-     {
-         options.ClientId = googleSignIn["ClientId"];
-         options.ClientSecret = googleSignIn["ClientSecret"];
-     });
+    .AddGoogle(options =>
+    {
+        options.ClientId = googleSignIn["ClientId"];
+        options.ClientSecret = googleSignIn["ClientSecret"];
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -92,8 +90,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
